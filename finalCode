@@ -1,0 +1,293 @@
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <regex>
+#include <algorithm>
+
+using namespace std;
+
+void personality(int swear, int aave, int activist, int music, int social){
+
+if (swear>400){
+  cout<<"You like to swear quite a bit in your tweets! It's all on the table between you and your fans. Just make sure you're staying on brand, otherwise you could lose some supporters!"<<endl;
+}
+else{
+  cout<<"You like to keep your tweets clean of swears. You might let one slip here or there but overall, you enjoy having a more family friendly brand. Good for you! Nothing wrong with a squeeky clean image!"<<endl;
+}
+
+if (aave>2200){
+  cout<<"\nYou love to use slang or African American Vernacular English in your tweets. This includes phrases link \"lambo\", \"clout\" and \"ya\" in your regular tweets. This is all fun and good...if you're a person of color of course. Watch out if African American isn't a term that applies to you! You might lose some fans because you didn't stay in your lane!"<<endl;
+}
+else{
+  cout<<"\nWhen it comes to slang or AAVE you like to stay away from using too much. You might throw in a popular phrase or two, but for the most part, you stick to what you're more comfortable with. Nothing wrong with that! Using AAVE doesn't make you more \"hip\" or popular, sometimes it's best to just stick to what you know. Great for you!"<<endl;
+}
+
+if (activist>350){
+  cout<<"\nYou like to use your social media platform to talk about some issues that matter! That's awesome! As a celebrity, you definitely see a responsiblity to educate others on the issues that really matter! Please keep it up!"<<endl;
+}
+else{
+  cout<<"\nYou really don't care about the issues huh? You choose not to talk about social issues on your platform. Either you have nothing good to say or don't want to say anything at all. If the latter is true, tweet something out! People definitely want to hear what you think. If the former is true, probably better to keep your mouth shut."<<endl;
+}
+
+if (music>1000){
+  cout<<"\nYou love to talk to your fans about your upcoming shows, performances, rehersals, and new releases! You might often talk about upcoming stadium performances you're really excited about or simply promote your music through your Twitter. You're definitely trying to stay active in music or are working on your craft at the moment. Awesome!"<<endl;
+}
+else{
+  cout<<"\nYou like to be a little quieter when it comes to your music career. You might not always talk about your upcoming projects, or rehersals. You could be taking a break or just laying a little lower. Of course there's always the chance that you just quote your own songs all the time, in that case, you're still pretty active, and some might even say, a little self focused..."<<endl;
+}
+
+if (social>1500){
+  cout<<"\nYou love to tag other people in your posts or share pictures with your followers. You probably go back and forth with some fans or friends on your Twitter too. That's really fun! I'm sure your fans really enjoy watching you interact with others on social media!"<<endl;
+}
+else{
+  cout<<"\nYou don't like to interact with others too much on your social media. In other words, you don't tag others or share photos too often. Nothing wrong with having a more personal Twitter account! Your fans probably like that you keep a more personal record of yourself on your social media."<<endl;
+}
+}
+
+
+
+int main() {
+
+    regex swears("((bitch)|(BITCH)|(FUCKIN)|(fuck)|(shit)|(Bitch)|(dick)|(pussy)|(Shi{1,}et{1,})|(hoe)|(HOE)|(ass))+");
+
+    regex aave("((ain.t)|(thru\\s)|(ya)|(lambo|Lambo)|(tho)|(lit)|(lotta)|(No cap)|(Issa)|(issa)|(ISSA)|(Na{1,})|(na{1,})|(clout)|(CLOUT)|(I be)|(ma{2,})|(Ya|ya|yuh)|(\\ssis\\s)|(\bDA\b|\bda\b)|(outta)|(\bwit\b)|(\bdas|\bdat)|(forreal)|(wildin)|(how{1,}bout)|(\\sjus\\s)|(\bem\b)|(nah|Nah)|(\bye{2,})|(\bye{2,})|(\bbout\b)|(\blookin\b))+");
+
+    regex activist("((sexual harrassment|sexual assault)|(mental health|mental illness|MentalHealth)|(#METOO|#metoo)|(#WorldKindnessDay)|(affected)|(Help|help)|(Veterans|veterans)|((first |emergency )?responders)|(fire ?fighter)|(vote|Vote)|humanity|government|trauma|respect|(equality)|(lgbtq)|(Pride|pride|PRIDE)|(suicide( prevention)?)|(survivor|Survivor)|((b|B)lack(L|l)ives(M|m)atter)|((B|b)lack))|feminism+");
+
+    regex music("((music)|album|song|perform|PERFORM|Spotify|AMA|theGRAMMYs|ticket|((P|p)op\b)|((T|t)our)|((R|r)ehearsal)|((S|s)tream)|(\b(S|s)(i|a)ng)|((V|v)ideo)|fan|show|(S|s)tadium|stage|artist|merch|(S|s)ingle|iHeartRadio|lyric|master|(M|m)onopoly|MONOPOLY|harmon|melod|headlin)+");
+
+    regex social("((@)|(https:)|(post))+");
+
+    ifstream cardib;
+    cardib.open("cardibtweets.txt");
+    string cardi;
+    smatch cmatches;
+    
+    int cardiswears=0;
+    int cardiaave=0;
+    int cardimusic=0;
+    int cardiactivist=0;
+    int cardisocial=0;
+
+    string line0;
+    while (!cardib.eof()) {
+        // Reads a line of input.
+        getline(cardib, line0);
+        line0.erase(remove(line0.begin(), line0.end(), '\r'), line0.end());
+
+        regex_search(line0, cmatches, swears);
+        cardiswears=cardiswears+cmatches.size();
+
+        regex_search(line0, cmatches, aave);
+        cardiaave=cardiaave+cmatches.size();
+
+        regex_search(line0, cmatches, activist);
+        cardiactivist=cardiactivist+cmatches.size();
+
+        regex_search(line0, cmatches, music);
+        cardimusic=cardimusic+cmatches.size();
+
+        regex_search(line0, cmatches, social);
+        cardisocial=cardisocial+cmatches.size();
+
+    }
+    cardib.close();
+
+
+    ifstream arianag;
+    arianag.open("arianagrandetweets.txt");
+    string ariana;
+    smatch amatches;
+    
+    int arianaswears=0;
+    int arianaaave=0;
+    int arianamusic=0;
+    int arianaactivist=0;
+    int arianasocial=0;
+
+    string line1;
+    while (!arianag.eof()) {
+        // Reads a line of input.
+        getline(arianag, line1);
+        line1.erase(remove(line1.begin(), line1.end(), '\r'), line1.end());
+
+        regex_search(line1, amatches, swears);
+        arianaswears=arianaswears+amatches.size();
+
+        regex_search(line1, amatches, aave);
+        arianaaave=arianaaave+amatches.size();
+
+        regex_search(line1, amatches, activist);
+        arianaactivist=arianaactivist+amatches.size();
+
+        regex_search(line1, amatches, music);
+        arianamusic=arianamusic+amatches.size();
+
+        regex_search(line1, amatches, social);
+        arianasocial=arianasocial+amatches.size();
+
+    }
+    arianag.close();
+
+    ifstream idrise;
+    idrise.open("idriselbatweets.txt");
+    string idris;
+    smatch imatches;
+    
+    int idrisswears=0;
+    int idrisaave=0;
+    int idrismusic=0;
+    int idrisactivist=0;
+    int idrissocial=0;
+
+    string line2;
+    while (!idrise.eof()) {
+        // Reads a line of input.
+        getline(idrise, line2);
+        line2.erase(remove(line2.begin(), line2.end(), '\r'), line2.end());
+
+        regex_search(line2, imatches, swears);
+        idrisswears=idrisswears+imatches.size();
+
+        regex_search(line2, imatches, aave);
+        idrisaave=idrisaave+imatches.size();
+
+        regex_search(line2, imatches, activist);
+        idrisactivist=idrisactivist+imatches.size();
+
+        regex_search(line2, imatches, music);
+        idrismusic=idrismusic+imatches.size();
+
+        regex_search(line2, imatches, social);
+        idrissocial=idrissocial+imatches.size();
+
+    }
+    idrise.close();
+
+    ifstream justinb;
+    justinb.open("justinbiebertweets.txt");
+    string justin;
+    smatch jmatches;
+    
+    int justinswears=0;
+    int justinaave=0;
+    int justinmusic=0;
+    int justinactivist=0;
+    int justinsocial=0;
+
+    string line3;
+    while (!justinb.eof()) {
+        // Reads a line of input.
+        getline(justinb, line3);
+        line3.erase(remove(line3.begin(), line3.end(), '\r'), line3.end());
+
+        regex_search(line3, jmatches, swears);
+        justinswears=justinswears+jmatches.size();
+
+        regex_search(line3, jmatches, aave);
+        justinaave=justinaave+jmatches.size();
+
+        regex_search(line3, jmatches, activist);
+        justinactivist=justinactivist+jmatches.size();
+
+        regex_search(line3, jmatches, music);
+        justinmusic=justinmusic+jmatches.size();
+
+        regex_search(line3, jmatches, social);
+        justinsocial=justinsocial+jmatches.size();
+
+    }
+    justinb.close();
+
+    ifstream ladyg;
+    ladyg.open("ladygagatweets.txt");
+    string lady;
+    smatch lmatches;
+    
+    int ladyswears=0;
+    int ladyaave=0;
+    int ladymusic=0;
+    int ladyactivist=0;
+    int ladysocial=0;
+
+    string line4;
+    while (!ladyg.eof()) {
+        // Reads a line of input.
+        getline(ladyg, line4);
+        line4.erase(remove(line4.begin(), line4.end(), '\r'), line4.end());
+
+        regex_search(line4, lmatches, swears);
+        ladyswears=ladyswears+lmatches.size();
+
+        regex_search(line4, lmatches, aave);
+        ladyaave=ladyaave+lmatches.size();
+
+        regex_search(line4, lmatches, activist);
+        ladyactivist=ladyactivist+lmatches.size();
+
+        regex_search(line4, lmatches, music);
+        ladymusic=ladymusic+lmatches.size();
+
+        regex_search(line4, lmatches, social);
+        ladysocial=ladysocial+lmatches.size();
+
+    }
+
+    ladyg.close();
+
+int select;
+bool keepgoing=true;
+
+cout<<"Welcome to the Twitter personality analyzer!\nThis program will analyze the tweets of your favorite celebrities\nthen print out a personality which describes them!\nReady to pick your celebrity?"<<endl;
+
+while(keepgoing)
+{
+  cout<<"To select a celeb, pick between the following numbers:\n\nCardi B: 1\nAriana Grande: 2\nJustin Bieber: 3\nLady Gaga: 4\nIdris Elba: 5"<<endl;
+  cin>>select;
+
+  if(select==1){
+    cout<<"You have chosen Cardi B."<<endl;
+    personality(cardiswears,cardiaave,cardiactivist,cardimusic,cardisocial);
+    cout<<"\n\n";
+  }
+  else if(select==2){
+    cout<<"You have chosen Ariana Grande."<<endl;
+    personality(arianaswears,arianaaave,arianaactivist,arianamusic,arianasocial);
+    cout<<"\n\n";
+  }
+  else if(select==3){
+    cout<<"You have chosen Justin Bieber."<<endl;
+    personality(justinswears,justinaave,justinactivist,justinmusic,justinsocial);
+    cout<<"\n\n";
+  }
+  else if(select==4){
+    cout<<"You have chosen Lady Gaga."<<endl;
+    personality(ladyswears,ladyaave,ladyactivist,ladymusic,ladysocial);
+    cout<<"\n\n";
+  }
+  else if(select==5){
+    cout<<"You have chosen Idris Elba."<<endl;
+    personality(idrisswears,idrisaave,idrisactivist,idrismusic,idrissocial);
+    cout<<"\n\n";
+  }
+  else{
+    cout<<"That's not a valid response. Please restart the program.";
+    break;
+  }
+  cout<<"Would you like to choose another celeb? Choose 1 for Yes and 2 for No"<<endl;
+  int going;
+  cin>>going;
+  
+  if (going==1){
+    keepgoing=true;
+  }
+  else if (going==2){
+    cout<<"Goodbye!!";
+    keepgoing=false;
+  }
+  else{
+    cout<<"That is not a valid response. Please try again/n";
+    keepgoing=true;
+  }
+}
+}
